@@ -1,0 +1,4 @@
+msal
+fastapi
+PyJWT
+python-dotenv
