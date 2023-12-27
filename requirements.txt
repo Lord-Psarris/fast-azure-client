@@ -1,4 +1,5 @@
-msal
+msal~=1.26.0
 fastapi
 PyJWT
 python-dotenv
+furl~=2.1.3
