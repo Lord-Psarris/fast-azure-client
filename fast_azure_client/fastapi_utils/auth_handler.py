@@ -56,29 +56,3 @@ class AuthHandler:
 
         user = graph_api.get_user_details(email=email, given_name=valid_token_data.get("name"))
         return user
-
-    def authenticate(self, func):
-        """
-        Decorator for authenticating routes.
-
-        Args:
-            func (callable): The function to be decorated.
-
-        Returns:
-            callable: The decorated function.
-
-        """
-
-        @wraps(func)
-        def method(func):
-            def wrapper(*args, token: HTTPAuthorizationCredentials = Security(self.security), **kwargs):
-                # Call the authenticate_token function to validate and decode the token
-                decode_token(token, client_id=self.client_id)
-
-                # Return the called function
-                return func(*args, **kwargs)
-
-            return wrapper
-
-        return method
-
