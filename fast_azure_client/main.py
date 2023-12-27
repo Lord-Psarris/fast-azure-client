@@ -4,6 +4,9 @@ from furl import furl
 from msal import ConfidentialClientApplication
 from msal.authority import (AuthorityBuilder, AZURE_PUBLIC)
 
+from .graph_utils import GraphAPI
+from .fastapi_utils.auth_handler import AuthHandler
+
 
 class AuthClient:
     """
@@ -168,7 +171,12 @@ class AuthClient:
             GraphAPI: The GraphAPI object. \n
 
         """
-        return 1
+        return GraphAPI(
+            access_token,
+            self.client_id,
+            self.oauth_tenant_id,
+            self.client_secret
+        )
 
     def fastapi_auth_handler(self):
         """
@@ -178,9 +186,14 @@ class AuthClient:
             AuthHandler: The AuthHandler object. \n
 
         """
-        return 1
+        return AuthHandler(
+            self.client_id,
+            self.client_secret,
+            self.oauth_tenant_id
+        )
 
-    def _generate_authority(self, mode: str, tenant_name: str, user_flow: Optional[str] = None):
+    @staticmethod
+    def _generate_authority(mode: str, tenant_name: str, user_flow: Optional[str] = None):
         """
         Generate the authority URL based on the authentication mode and tenant details. \n
 
